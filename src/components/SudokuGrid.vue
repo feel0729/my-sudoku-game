@@ -36,7 +36,7 @@
   <script>
   import { computed, ref, watch } from 'vue';
   import { useStore } from 'vuex';
-  import '@/assets/sudoku.css';  // 引用CSS文件
+  import '@/assets/sudoku.css';
   
   export default {
     setup() {
@@ -56,7 +56,7 @@
       const handleInput = (row, col, event) => {
         if (isComposing.value) {
           isLevelCompleted.value = false;
-          return;  // 如果处于组合输入状态，不处理输入事件
+          return;
         }
         const value = event.target.value;
         if (/^[1-9]?$/.test(value)) {
@@ -74,8 +74,8 @@
   
       const handleCompositionEnd = (row, col, event) => {
         isLevelCompleted.value = false;
-        isComposing.value = false;  // 组合输入结束
-        handleInput(row, col, event);  // 在组合输入结束时处理输入事件
+        isComposing.value = false;
+        handleInput(row, col, event);
       };
   
       const checkLevelCompletion = () => {
@@ -86,8 +86,6 @@
             const temp_solutionGrid_value = solutionGrid.value[row][col];
             if (temp_grid_value === '' || String(temp_grid_value) !== String(temp_solutionGrid_value)) {
               isLevelCompleted.value = false;
-              console.log(`error grid.value[${row}][${col}]:${temp_grid_value}`);
-              console.log(`should be solutionGrid.value[${row}][${col}]:${temp_solutionGrid_value}`);
               return;
             }
           }
@@ -97,10 +95,9 @@
   
       const nextLevel = () => {
         store.dispatch('setNextLevel');
-        isLevelCompleted.value = false; // 重置关卡完成状态
+        isLevelCompleted.value = false;
       };
   
-      // 监听 grid 的变化，确保在每次输入后检查关卡完成状态
       watch(grid, checkLevelCompletion, { deep: true });
   
       return {

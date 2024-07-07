@@ -2,7 +2,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store';
-import './assets/styles.css'; // 引入全局樣式
+import './assets/styles.css';
 
 const app = createApp(App);
 
