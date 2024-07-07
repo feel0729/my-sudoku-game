@@ -1,7 +1,7 @@
 <!-- src/App.vue -->
 <template>
   <div id="app">
-    <h1>Sudoku Game</h1>
+    <h1>數獨</h1>
     <SudokuGrid />
   </div>
 </template>
@@ -16,3 +16,13 @@ export default {
   }
 };
 </script>
+
+<style>
+#app {
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+</style>

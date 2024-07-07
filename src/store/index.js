@@ -1,56 +1,59 @@
-// src/store/index.js
 import { createStore } from 'vuex';
-import { generateSudokuPuzzle, solveSudokuPuzzle } from '../utils/sudokuGenerator';
+import { generateSudokuPuzzle } from '../utils/sudokuGenerator';
 
-const generateInitialGrid = (level) => {
-  return generateSudokuPuzzle(level);
+const initializeState = (level) => {
+  const { grid, initialGrid, solutionGrid } = generateSudokuPuzzle(level);
+  return { grid, initialGrid, solutionGrid };
 };
 
-const deepCopy = (obj) => {
-  return JSON.parse(JSON.stringify(obj));
-};
-
-const initialGrid = generateInitialGrid(1);
-const solutionGrid = solveSudokuPuzzle(deepCopy(initialGrid));
+const initialState = initializeState(1);
 
 export default createStore({
   state: {
     level: 1,
-    passCount: 0,
-    grid: deepCopy(initialGrid),
-    initialGrid: deepCopy(initialGrid),
-    solutionGrid: deepCopy(solutionGrid),
-    userInputs: Array(9).fill().map(() => Array(9).fill(false))
+    grid: initialState.grid,
+    initialGrid: initialState.initialGrid,
+    solutionGrid: initialState.solutionGrid,
+    userInputs: Array(9).fill().map(() => Array(9).fill(false)),
+    passCount: 0
   },
   mutations: {
-    setNextLevel(state) {
-      state.passCount += 1;
-      state.level = state.passCount + 1;
-      const newGrid = generateInitialGrid(state.level);
-      state.grid = deepCopy(newGrid);
-      state.initialGrid = deepCopy(newGrid);
-      state.solutionGrid = deepCopy(solveSudokuPuzzle(deepCopy(newGrid)));
-      state.userInputs = Array(9).fill().map(() => Array(9).fill(false));
+    setGrid(state, { grid, initialGrid, solutionGrid }) {
+      state.grid = grid;
+      state.initialGrid = initialGrid;
+      state.solutionGrid = solutionGrid;
     },
-    updateCell(state, { row, col, value }) {
+    setCell(state, { row, col, value }) {
       state.grid[row][col] = value;
-      state.userInputs[row][col] = value !== '';
+      state.userInputs[row][col] = true;
+    },
+    setNextLevel(state) {
+      state.passCount++;
+      state.level = state.passCount + 1;
+      const { grid, initialGrid, solutionGrid } = generateSudokuPuzzle(state.level);
+      state.grid = grid;
+      state.initialGrid = initialGrid;
+      state.solutionGrid = solutionGrid;
+      state.userInputs = Array(9).fill().map(() => Array(9).fill(false));
     }
   },
   actions: {
-    setNextLevel({ commit }) {
-      commit('setNextLevel');
+    generateNewPuzzle({ commit }, level) {
+      const { grid, initialGrid, solutionGrid } = generateSudokuPuzzle(level);
+      commit('setGrid', { grid, initialGrid, solutionGrid });
     },
     setCell({ commit }, payload) {
-      commit('updateCell', payload);
+      commit('setCell', payload);
+    },
+    setNextLevel({ commit }) {
+      commit('setNextLevel');
     }
   },
   getters: {
-    level: state => state.level,
-    passCount: state => state.passCount,
     grid: state => state.grid,
     initialGrid: state => state.initialGrid,
     solutionGrid: state => state.solutionGrid,
-    userInputs: state => state.userInputs
+    userInputs: state => state.userInputs,
+    passCount: state => state.passCount
   }
 });
