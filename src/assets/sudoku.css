@@ -12,8 +12,8 @@
     grid-template-rows: repeat(9, 10%);
     grid-template-columns: repeat(9, 10%);
     gap: 1 px;
-    width: 600px;
-    height: 600px;
+    width: 540px;
+    height:540px;
     overflow: auto;
 }
 
@@ -22,7 +22,7 @@
     height: 100%;
     text-align: center;
     background-color: #B5CAA0;
-    font-size: 100%;
+    font-size: 20px;
     -moz-appearance: textfield;
     /* Firefox */
 }
