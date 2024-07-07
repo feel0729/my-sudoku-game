@@ -51,13 +51,13 @@ export const generateSudokuPuzzle = (level) => {
             solutionGrid[i][j] = grid[i][j];
         }
     }
-    const difficults = Math.floor((level > 60 ? 60 : level) / 10);
-    const cellsToRemove = (difficults == 0 ? 1 : difficults) * 9;
+    const difficults = 1 + Math.floor((level > 10 ? 10 : level) / 2);
+    const cellsToRemove = difficults * 9;
     removeCells(grid, cellsToRemove);
     const initialGrid = deepCopy(grid);
     return { grid, initialGrid, solutionGrid };
 };
 
 const deepCopy = (obj) => {
-  return JSON.parse(JSON.stringify(obj));
+    return JSON.parse(JSON.stringify(obj));
 };
