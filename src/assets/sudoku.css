@@ -12,8 +12,8 @@
 }
 
 .sudoku-cell {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     text-align: center;
     background-color: #B5CAA0;
     font-size: 16px;
