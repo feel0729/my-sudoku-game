@@ -15,11 +15,11 @@
 }
 
 .sudoku-cell {
-    width: 78%;
-    height: 90%;
+    width: 36px;
+    height: 36px;
     text-align: center;
     background-color: #B5CAA0;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border: 2px solid #000000;
     -moz-appearance: textfield;
     /* Firefox */
