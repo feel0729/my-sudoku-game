@@ -28,13 +28,13 @@
       </div>
       <div v-if="isLevelCompleted" class="next-level">
         <div class="congrats-message">恭喜通關!</div>
-        <button @click="nextLevel">下一關</button>
+        <button ref="nextLevelButton" @click="nextLevel">下一關</button>
       </div>
     </div>
   </template>
   
   <script>
-  import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, nextTick } from 'vue';
   import { useStore } from 'vuex';
   import '@/assets/sudoku.css';
   
@@ -48,6 +48,7 @@
       const passCount = computed(() => store.getters.passCount);
       const isLevelCompleted = ref(false);
       const isComposing = ref(false);
+      const nextLevelButton = ref(null);
   
       const isReadOnly = (row, col) => {
         return initialGrid.value[row][col] !== '';
@@ -91,6 +92,11 @@
           }
         }
         isLevelCompleted.value = true;
+        nextTick(() => {
+          if (nextLevelButton.value) {
+            nextLevelButton.value.focus();
+          }
+        });
       };
   
       const nextLevel = () => {
@@ -112,7 +118,8 @@
         isReadOnly,
         isLevelCompleted,
         nextLevel,
-        isComposing
+        isComposing,
+        nextLevelButton
       };
     }
   };
